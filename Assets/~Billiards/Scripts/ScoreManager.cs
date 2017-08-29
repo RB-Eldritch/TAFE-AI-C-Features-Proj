@@ -30,6 +30,7 @@ namespace Billiards {
             if (int.TryParse(other.gameObject.name, out otherInt)) {
 
                 score++;
+                print(score);
             }
             else{
 

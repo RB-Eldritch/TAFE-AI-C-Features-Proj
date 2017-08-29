@@ -5,8 +5,9 @@ using UnityEngine;
 namespace Breakout {
     public class Paddle : MonoBehaviour {
 
-        public float movementSpeed = 20f;
+        public float movementSpeed = 25f;
         public Ball currentBall;
+        public bool isFired = false;
 
         public Vector3[] directions = new Vector3[] { new Vector3(.5f, .5f), new Vector3(-.5f, .5f) };
 
@@ -37,9 +38,10 @@ namespace Breakout {
 
         void CheckInput() {
 
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.GetKeyDown(KeyCode.Space) && isFired == false) {
 
                 Fire();
+                isFired = true;
             }
         }
 

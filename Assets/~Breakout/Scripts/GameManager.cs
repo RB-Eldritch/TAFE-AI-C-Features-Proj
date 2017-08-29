@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Breakout {
 
@@ -14,6 +15,9 @@ namespace Breakout {
 
         public GameObject[] blockPrefabs;
 
+        public int score;
+        public Text scoreText;
+
         [Header("Debug")]
 
         public bool isDebugging = false;
@@ -25,10 +29,13 @@ namespace Breakout {
         void Start() {
 
             GenerateBlocks();
+           
         }
 
         // Update is called once per frame
         void Update() {
+
+            scoreText.text = "Score: " + score;
 
             if (isDebugging) {
 
@@ -64,7 +71,8 @@ namespace Breakout {
                 for (int y = 0; y < height; y++) {
 
                     GameObject blockClone = GetRandomBlock();
-                    Vector3 pos = new Vector3(x, y, 0);
+                    Vector2 pos = new Vector2(x * spacing.x, y * spacing.y);
+                    pos += offset;
                     blockClone.transform.position = pos;
 
                     //add block to 2d array

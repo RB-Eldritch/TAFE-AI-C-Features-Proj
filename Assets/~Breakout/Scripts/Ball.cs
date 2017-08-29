@@ -5,7 +5,9 @@ using UnityEngine;
 namespace Breakout {
     public class Ball : MonoBehaviour {
 
-        public float speed = 5f;
+        public float speed = 25f;
+
+        public GameManager gameManager;
 
         private Vector3 velocity;
 
@@ -35,6 +37,12 @@ namespace Breakout {
 
             //redirectin the velocity to direction
             velocity = reflect.normalized * velocity.magnitude;
+
+            if (other.gameObject.tag == "Box") {
+
+                Destroy(other.gameObject);
+                gameManager.score++;
+            }
         }
     }
 }
