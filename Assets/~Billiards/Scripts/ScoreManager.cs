@@ -21,6 +21,7 @@ namespace Billiards {
         // Update is called once per frame
         void Update() {
 
+            scoreText.text = "Score: " + score;
         }
 
         void OnCollisionEnter(Collision other) {

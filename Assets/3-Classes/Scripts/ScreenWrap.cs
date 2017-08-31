@@ -42,8 +42,8 @@ public class ScreenWrap : MonoBehaviour {
         //calculate the sprites half width and height
         float halfWidth = size.x / 2f;
         float halfHeight = size.y / 2f;
-        float halfCamWidth = camWidth / 2f;
-        float halfCamHeight = camHeight / 2f;
+        //float halfCamWidth = camWidth / 2f;
+       // float halfCamHeight = camHeight / 2f;
 
         //check left
         if (pos.x + halfWidth < camBounds.min.x) {
