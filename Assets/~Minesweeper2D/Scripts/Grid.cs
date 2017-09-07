@@ -16,17 +16,21 @@ namespace Minesweeper2D {
         void Start() {
 
             GenerateTiles();
+
+            //GetAdjacentMineCountAt(tiles[3, 7]);
         }
 
         // Update is called once per frame
-        void Update() {
+        void FixedUpdate() {
 
+            RevealTile();
         }
 
         Tile SpawnTile(Vector3 pos) {
 
             GameObject clone = Instantiate(tilePrefab);
             clone.transform.position = pos;
+
             Tile currentTile = clone.GetComponent<Tile>();
             return currentTile;
         }
@@ -50,6 +54,51 @@ namespace Minesweeper2D {
                     tile.y = y;
 
                     tiles[x, y] = tile;
+                }
+            }
+        }
+
+        public int GetAdjacentMineCountAt(Tile t) {
+
+            int count = 0;
+
+            for (int x = -1; x <= 1; x++) {
+
+                for (int y = -1; y <= 1; y++) {
+
+                    int desiredX = t.x + x;
+                    int desiredY = t.y + y;
+
+                    if (desiredX >= 0 && desiredY >= 0 && desiredX < width && desiredY < height) {
+
+                        Tile tile = tiles[desiredX, desiredY];
+
+                        if (tile.isMine) {
+
+                            count += 1;
+                        }
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        void RevealTile() {
+
+            if (Input.GetMouseButtonDown(0)) {
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+                if (hit.collider != null) {
+
+                    Tile tile = hit.collider.gameObject.GetComponent<Tile>();
+
+                    if (tile) {
+
+                        tile.Reveal(GetAdjacentMineCountAt(tile));
+                    }
                 }
             }
         }
