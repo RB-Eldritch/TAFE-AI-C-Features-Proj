@@ -13,7 +13,7 @@ namespace TowerDefense {
         // Use this for initialization
         void Start() {
 
-
+            InvokeRepeating("Spawn", 0, spawnRate);
         }
 
         // Update is called once per frame
@@ -34,7 +34,8 @@ namespace TowerDefense {
             Vector3 rand = Random.insideUnitSphere;
             rand.y = 0;
             clone.transform.position = transform.position + rand * spawnRadius;
-            
+            AIAgent aiAgent = clone.GetComponent<AIAgent>();
+            aiAgent.target = target;
         }
     }
 }
