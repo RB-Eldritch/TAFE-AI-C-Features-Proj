@@ -9,17 +9,41 @@ namespace Inheritance {
         public float impactForce = 10f;
         public float knockback = 5f;
 
-        public Rigidbody rigid;
-        
-        void OnCollisionEnter(Collision other) {
+        public bool charging = false;
 
-            //if collision hits player
-                //add impactForce to player
+        protected override void Awake() {
+
+            base.Awake();
         }
 
-        public override void Attack() {
+        void OnCollisionEnter(Collision other) {
+
+            if (charging == true) {
+
+                //if collision hits player 
+                Health h = other.gameObject.GetComponent<Health>();
+                if (h != null) {
+
+                    h.TakeDamage(damage);
+                }
+
+                //add impactForce to player
+                Rigidbody r = other.gameObject.GetComponent<Rigidbody>();
+                if (r != null) {
+
+                    r.AddForce(transform.forward * impactForce, ForceMode.Impulse);
+                }
+
+                charging = false;
+            }
+        }
+
+        protected override void Attack() {
+
+            charging = true;
 
             //add force to self
+            rigid.AddForce(transform.forward * knockback, ForceMode.Impulse);
         }
     }
 }

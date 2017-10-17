@@ -12,17 +12,18 @@ namespace Inheritance {
 
         public float attackRate = .5f;
         public float attackRange = 2f;
+        public float attackDuration = 1f;
 
         public Transform target;
 
+        protected Rigidbody rigid;
+        protected NavMeshAgent nav;
 
         private float attackTimer = 0f;
 
-        private Rigidbody rigid;
+        
 
-        private NavMeshAgent nav;
-
-        void Awake() {
+        protected virtual void Awake() {
 
             rigid = GetComponent<Rigidbody>();
             nav = GetComponent<NavMeshAgent>();
@@ -35,30 +36,61 @@ namespace Inheritance {
         }
 
         // Update is called once per frame
-        void Update() {
+        protected virtual void Update() {
+
+            if (target == null) {
+
+                return;
+            }
+
+            nav.SetDestination(target.position);
 
             attackTimer += Time.deltaTime;
 
-            //get distance between this and target, ie enemy and player
-            float distance = Vector3.Distance(transform.position, target.position);
+            if (attackTimer >= attackRate) {
 
-            //if the distance is not further that the attack range
-            if (distance < attackRange) {
+                //get distance between this and target, ie enemy and player
+                float distance = Vector3.Distance(transform.position, target.position);
 
-                Attack();
+                //if the distance is not further that the attack range
+                if (distance < attackRange) {
 
-                attackTimer = 0f;
+                    Attack();
+
+                    attackTimer = 0f;
+
+                    StartCoroutine(AttackDelay(attackRate));
+                }
             }
 
-            if (target != null) {
-
-                nav.SetDestination(target.position);
-            }
+            nav.SetDestination(target.position);
         }
 
-        public virtual void Attack() {
+        protected virtual void Attack() {
 
-            print("geeeeeet dunked on!");
+            
+        }
+
+        protected virtual void OnAttackEnd() {
+
+
+        }
+
+        IEnumerator AttackDelay(float delay) {
+
+            //stop navigation
+            nav.Stop();
+
+            yield return new WaitForSeconds(delay);
+
+            if (nav.isOnNavMesh) {
+
+                //resume navigation
+                nav.Resume();
+            }
+
+            //Call OnAttackEnd()
+            OnAttackEnd();
         }
     }
 }
