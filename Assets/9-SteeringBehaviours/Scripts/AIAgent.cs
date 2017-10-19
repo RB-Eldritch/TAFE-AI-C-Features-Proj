@@ -87,9 +87,6 @@ namespace AI {
                 //SET transform.rotation = Quaternion LookRotation (velocity)
                 transform.rotation = Quaternion.LookRotation(velocity);
             }
-
-
-
         }
     }
 }

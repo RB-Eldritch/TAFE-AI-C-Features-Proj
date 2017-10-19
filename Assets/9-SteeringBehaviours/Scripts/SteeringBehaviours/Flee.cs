@@ -6,7 +6,7 @@ using GGL;
 
 namespace AI {
 
-    public class Seek : SteeringBehaviour {
+    public class Flee : SteeringBehaviour {
 
         public float stoppingDistance = 1f;
 
@@ -22,7 +22,7 @@ namespace AI {
             }
 
             //Let desiredForce = target position - transform position
-            Vector3 desiredForce = target.position - transform.position;
+            Vector3 desiredForce = transform.position - target.position;
 
             //If desiredForce magnitude > stoppingDistance
             if (desiredForce.magnitude > stoppingDistance) {
@@ -37,11 +37,11 @@ namespace AI {
 
             #region GizmosGL
 
-           // GizmosGL.color = Color.red;
-            GizmosGL.AddLine(transform.position, transform.position + desiredForce, .2f, .2f, Color.red, Color.red);
-
             //GizmosGL.color = Color.green;
             GizmosGL.AddLine(transform.position, transform.position + force, .2f, .2f, Color.green, Color.green);
+
+            // GizmosGL.color = Color.red;
+            GizmosGL.AddLine(transform.position, transform.position + desiredForce, .2f, .2f, Color.red, Color.red);
 
             #endregion
 
