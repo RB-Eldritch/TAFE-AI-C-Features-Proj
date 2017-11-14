@@ -20,6 +20,7 @@ namespace PaperMarioClone {
         [HideInInspector] public Vector3 inputDir;
 
         private bool jump = false;
+        private bool jumpInstant = false;
 
         private CharacterController controller;
 
@@ -58,13 +59,23 @@ namespace PaperMarioClone {
                 gravity += Physics.gravity * Time.deltaTime;
             }
 
+            if (jumpInstant) {
+
+                gravity.y = jumpHeight;
+                jumpInstant = false;
+            }
+
             movement += gravity;
             controller.Move(movement * Time.deltaTime);
         }
 
-        public void Jump() {
+        public void Jump(bool instant = false) {
 
-            jump = true;
+            if (instant) 
+
+                jumpInstant = true;
+            else
+                jump = true;
         }
 
         public void Move(float inputH, float InputV) {
