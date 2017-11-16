@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GGL;
 
 namespace MOBA
 {
@@ -7,7 +8,7 @@ namespace MOBA
     {
         // Public:
         public Transform target;
-        public float stoppingDistance = 0f;
+        public float stoppingDistance = 5f;
 
         public override Vector3 GetForce()
         {
@@ -19,7 +20,16 @@ namespace MOBA
 
             // SET desiredForce
             Vector3 desiredForce = target.position - transform.position;
-            
+
+            #region GizmosGL
+
+            GizmosGL.color = Color.yellow;
+            GizmosGL.AddLine(transform.position, target.position,.1f, .1f, Color.yellow, Color.yellow);
+            Sphere s = GizmosGL.AddSphere(target.position, stoppingDistance * 2);
+            s.color = new Color(1, .92f, .016f, .2f);
+
+            #endregion
+
             // Check if the direction is valid
             if (desiredForce.magnitude > stoppingDistance)
             {

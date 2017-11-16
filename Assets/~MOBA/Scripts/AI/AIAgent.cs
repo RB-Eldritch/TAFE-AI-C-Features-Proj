@@ -66,21 +66,22 @@ namespace MOBA
 
             nav.speed = velocity.magnitude;
 
-            if (velocity.magnitude > 0) {
+            if (velocity.magnitude > 0 && nav.updatePosition) {
 
                 if (velocity.magnitude > maxSpeed) {
 
                     velocity = velocity.normalized * maxSpeed;
                 }
+
+                Vector3 pos = transform.position + velocity;
+
+                NavMeshHit navHit;
+
+                if (NavMesh.SamplePosition(pos, out navHit, maxDist, -1)) {
+
+                    nav.SetDestination(navHit.position);
+                }
             }
-
-            Vector3 pos = transform.position + velocity;
-
-            NavMeshHit navHit;
-            if (NavMesh.SamplePosition(pos, out navHit, maxDist, -1)) {
-
-                nav.SetDestination(navHit.position);
-            }       
         }
     }
 }
