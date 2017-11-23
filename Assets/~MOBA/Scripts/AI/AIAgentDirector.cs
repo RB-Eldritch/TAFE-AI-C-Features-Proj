@@ -57,6 +57,13 @@ namespace MOBA {
 
                     s.target = target;
                 }
+
+                PathFollowing p = agent.GetComponent<PathFollowing>();
+
+                if (p != null) {
+
+                    p.target = target;
+                }
             }
         }
     }
